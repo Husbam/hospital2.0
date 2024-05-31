@@ -1,113 +1,194 @@
 <template>
-    <div class="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-    <div class="sm:mx-auto sm:w-full sm:max-w-md">
-        <img class="mx-auto h-10 w-auto" src="https://www.svgrepo.com/show/301692/login.svg" alt="Workflow">
-        <h2 class="mt-6 text-center text-3xl leading-9 font-extrabold text-gray-900">
-            Crear una cuenta
-        </h2>
-        <p class="mt-2 text-center text-sm leading-5 text-gray-500 max-w">
-            O
-            <router-link to="/">
-            <a href="#"
-                class="font-medium text-blue-600 hover:text-blue-500 focus:outline-none focus:underline transition ease-in-out duration-150">
-                ingresa con tu cuenta
-            </a>
-            </router-link>
-        </p>
-    </div>
+<!-- source: https://gist.github.com/nraloux/bce10c4148380061781b928cdab9b193 -->
+<!-- I have added support for dark mode and improved UI -->
 
-    <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-            <form method="POST" action="#">
-                <div>
-                    <label for="email" class="block text-sm font-medium leading-5  text-gray-700">Nombre</label>
-                    <div class="mt-1 relative rounded-md shadow-sm">
-                        <input id="name" name="name" placeholder="John Doe" type="text" required="" value="" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5">
-                        <div class="hidden absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                            <svg class="h-5 w-5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd"
-                                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                                    clip-rule="evenodd">
-                                </path>
-                            </svg>
-                        </div>
-                    </div>
-                </div>
+<div class="h-full bg-gray-400 dark:bg-gray-900">
+	<!-- Container -->
+	<div class="mx-auto">
+		<div class="flex justify-center px-6 py-12">
+			<!-- Row -->
+			<div class="w-full xl:w-3/4 lg:w-11/12 flex">
+				<!-- Col -->
+				
+				<!-- Col -->
+				<div class="w-full lg:w-7/12 bg-white dark:bg-gray-700 p-5 rounded-lg lg:rounded-l-none">
+					<h3 class="py-4 text-2xl text-center text-gray-800 dark:text-white">Create an Account!</h3>
+					<form class="px-8 pt-6 pb-8 mb-4 bg-white dark:bg-gray-800 rounded">
+						
+						<div class="mb-4 md:flex md:justify-around">
+							<div class="mb-4 md:mr-2 md:mb-0">
+								<label class="block mb-2 text-sm font-bold text-gray-700 dark:text-white" for="email">
+									NOMBRE
+								</label>
+								<input
+									class="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+									id="nombre"
+									type="text"
+									placeholder="Nombre"
+								/>
+							</div>
+							<div class="md:ml-2">
+								<label class="block mb-2 text-sm font-bold text-gray-700 dark:text-white" for="lastName">
+                                   PRIMER APELLIDO
+                                </label>
+								<input
+                                    class="w-full px-3 py-2 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                    id="primer_apellido"
+                                    type="text"
+                                    placeholder="Apellido"
+                                />
+							</div>
+                            <div class="md:ml-2">
+								<label class="block mb-2 text-sm font-bold text-gray-700 dark:text-white" for="lastName">
+                                   SEGUNDO APELLIDO
+                                </label>
+								<input
+                                    class="w-full px-3 py-2 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                    id="segundo_apellido"
+                                    type="text"
+                                    placeholder="Apellido"
+                                />
+							</div>
+						</div>
+						<div class="mb-4 md:flex md:justify-around">
+							<div class="mb-4 md:mr-2 md:mb-0">
+								<label class="block mb-2 text-sm font-bold text-gray-700 dark:text-white" for="password">
+                                    CURP
+                                </label>
+								<input
+                                    class="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 dark:text-white border border-red-500 rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                    id="curp"
+                                    type="text"
+                                    placeholder="******************"
+                                />
+							</div>
+							<div class="md:ml-2">
+								<label class="block mb-2 text-sm font-bold text-gray-700 dark:text-white" for="c_password">
+                                    Genero
+                                </label>
+								<form class="max-w-sm mx-auto">
+                                    <select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                        <option selected>Choose a country</option>
+                                        <option value="US">United States</option>
+                                        <option value="CA">Canada</option>
+                                        <option value="FR">France</option>
+                                        <option value="DE">Germany</option>
+                                    </select>
+                                </form>
+							</div>
+                            <div class="md:ml-2">
+								<label class="block mb-2 text-sm font-bold text-gray-700 dark:text-white" for="c_password">
+                                    Tipo de Sangre
+                                </label>
+								<form class="max-w-sm mx-auto">
+                                    <select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                        <option selected>Choose a country</option>
+                                        <option value="US">United States</option>
+                                        <option value="CA">Canada</option>
+                                        <option value="FR">France</option>
+                                        <option value="DE">Germany</option>
+                                    </select>
+                                </form>
+							</div>
+						</div>
+                        <div class="mb-4 md:flex md:justify-around">
+							<div class="mb-4 md:mr-2 md:mb-0">
+								<label class="block mb-2 text-sm font-bold text-gray-700 dark:text-white" for="email">
+									Fecha de nacimiento
+								</label>
+								<input
+									class="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+									id="nombre"
+									type="date"
+									placeholder="00/00/0000"
+								/>
+							</div>
+							<div class="md:ml-2">
+								<label class="block mb-2 text-sm font-bold text-gray-700 dark:text-white" for="lastName">
+                                   Telefono
+                                </label>
+								<input
+                                    class="w-full px-3 py-2 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                    id="telefono"
+                                    type="text"
+                                    placeholder="telefono"
+                                />
+							</div>
+                            <div class="md:ml-2">
+								<label class="block mb-2 text-sm font-bold text-gray-700 dark:text-white" for="lastName">
+                                   Correo
+                                </label>
+								<input
+                                    class="w-full px-3 py-2 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                    id="correo"
+                                    type="email"
+                                    placeholder="tu@correo.com"
+                                />
+							</div>
+						</div>
 
-                <div class="mt-6">
-                    <label for="username" class="block text-sm font-medium leading-5 text-gray-700">Usuario</label>
-                    <div class="mt-1 flex rounded-md shadow-sm">
+                        <div class="mb-4 md:flex md:justify-around">
+							<div class="mb-4 md:mr-2 md:mb-0">
+								<label class="block mb-2 text-sm font-bold text-gray-700 dark:text-white" for="email">
+									Usuario
+								</label>
+								<input
+									class="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+									id="usuario"
+									type="text"
+									placeholder="usuario"
+								/>
+							</div>
+							<div class="md:ml-2">
+								<label class="block mb-2 text-sm font-bold text-gray-700 dark:text-white" for="lastName">
+                                   Contraseña
+                                </label>
+								<input
+                                    class="w-full px-3 py-2 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                    id="contrasena"
+                                    type="password"
+                                    placeholder="Contraseña"
+                                />
+							</div>
+                            <div class="md:ml-2">
+								<label class="block mb-2 text-sm font-bold text-gray-700 dark:text-white" for="lastName">
+                                   repetir Contraseña
+                                </label>
+								<input
+                                    class="w-full px-3 py-2 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                    id="re_contrasena"
+                                    type="password"
+                                    placeholder="Contraseña"
+                                />
+							</div>
+						</div>
 
-                        <span class="inline-flex h-10 items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">
-                    hospital.com/
-                </span>
-                        <input id="username" name="username" placeholder="john" type="text" required="" value="" class="flex-1 form-input pl-3 block w-full rounded-none rounded-r-md transition duration-150 ease-in-out sm:text-sm sm:leading-5 ">
-                    </div>
-                </div>
-
-                <div class="mt-6">
-                    <label for="email" class="block text-sm font-medium leading-5  text-gray-700">
-            Correo Electronico
-          </label>
-                    <div class="mt-1 relative rounded-md shadow-sm">
-                        <input id="email" name="email" placeholder="user@example.com" type="email" required="" value="" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5
-                ">
-                        <div class="hidden absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                            <svg class="h-5 w-5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd"
-                                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                                    clip-rule="evenodd"></path>
-                            </svg>
-                        </div>
-                    </div>
-                </div>
 
 
-                <div class="mt-6">
-                    <label for="email" class="block text-sm font-medium leading-5  text-gray-700">
-            Numero telefonico
-          </label>
-                    <div class="mt-1 relative rounded-md shadow-sm">
-                        <input id="email" name="email" placeholder="(+XX) XXX XXX XX XX" type="email" required="" value="" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5
-                ">
-                        <div class="hidden absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                            <svg class="h-5 w-5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd"
-                                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                                    clip-rule="evenodd"></path>
-                            </svg>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="mt-6">
-                    <label for="password" class="block text-sm font-medium leading-5 text-gray-700">
-                Contraseña
-            </label>
-                    <div class="mt-1 rounded-md shadow-sm">
-                        <input id="password" name="password" type="password" required="" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5">
-                    </div>
-                </div>
 
-                <div class="mt-6">
-                    <label for="password_confirmation" class="block text-sm font-medium leading-5 text-gray-700">
-                Confirmar Contraseña
-            </label>
-                    <div class="mt-1 rounded-md shadow-sm">
-                        <input id="password_confirmation" name="password_confirmation" type="password" required="" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5">
-                    </div>
-                </div>
 
-                <div class="mt-6">
-                    <span class="block w-full rounded-md shadow-sm">
-            <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out">
-              Crear Cuenta
-            </button>
-          </span>
-                </div>
-            </form>
-
-        </div>
-    </div>
+						<div class="mb-6 text-center">
+							<button
+                                class="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 dark:bg-blue-700 dark:text-white dark:hover:bg-blue-900 focus:outline-none focus:shadow-outline"
+                                type="button"
+                            >
+                                Crear Cuenta
+                            </button>
+						</div>
+						<hr class="mb-6 border-t" />
+						<div class="text-center">
+                            <router-link to="/">
+							<a class="inline-block text-sm text-blue-500 dark:text-blue-500 align-baseline hover:text-blue-800"
+								href="#">
+								Inicia sesion
+							</a>
+                        </router-link>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 </template>

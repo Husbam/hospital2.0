@@ -18,7 +18,9 @@
         </div>       
       </form>  
       <footer>
-        <a class="text-indigo-700 hover:text-pink-700 text-sm float-left" href="#">¿Olvidaste la contraseña?</a>
+        <router-link to="/dashboard">
+        <a class="text-indigo-700 hover:text-pink-700 text-sm float-left" href="#">Dashboard</a>
+      </router-link>
         <router-link to="/register">
             <a class="text-indigo-700 hover:text-pink-700 text-sm float-right" href="#">Crear Cuenta</a>
         </router-link>
