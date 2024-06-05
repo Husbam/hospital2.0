@@ -1,0 +1,2 @@
+$ git config --global user.name "Jose Gomez"
+$ git config --global user.email 210562@utxicotepec.edu.mx
