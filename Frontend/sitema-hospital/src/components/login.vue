@@ -13,16 +13,21 @@
           <label class="block mb-2 text-indigo-500" for="password">Contraseña</label>
           <input class="w-full p-2 mb-6 text-indigo-700 border-b-2 border-indigo-500 outline-none focus:bg-gray-300" type="password" name="password">
         </div>
-        <div>          
+        <div>
+          <router-link to="/dashboard">         
           <input class="w-full bg-indigo-700 hover:bg-pink-700 text-white font-bold py-2 px-4 mb-6 rounded" type="submit">
+        </router-link> 
         </div>       
       </form>  
       <footer>
-        <router-link to="/dashboard">
-        <a class="text-indigo-700 hover:text-pink-700 text-sm float-left" href="#">Dashboard</a>
+        <router-link to="/usuarios">
+        <a class="text-indigo-700 hover:text-pink-700 text-sm float-left" href="#">Usuarios</a>
       </router-link>
-        <router-link to="/register">
+        <router-link to="/personas">
             <a class="text-indigo-700 hover:text-pink-700 text-sm float-right" href="#">Crear Cuenta</a>
+        </router-link>
+        <router-link to="/register">
+            <a class="text-indigo-700 hover:text-pink-700 text-sm float-right" href="#">123</a>
         </router-link>
       </footer>   
     </div>
