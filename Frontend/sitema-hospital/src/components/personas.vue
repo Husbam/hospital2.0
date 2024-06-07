@@ -1,5 +1,5 @@
 <template>
-    <div class="h-full bg-gray-400 dark:bg-gray-900">
+
         <div class="mx-auto">
 		<div class="flex justify-center px-6 py-12">
 			<!-- Row -->
@@ -141,6 +141,5 @@
 					</form>
             </div>
         </div>
-    </div>              
-    </div>
+    </div>  
 </template>
