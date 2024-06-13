@@ -25,11 +25,7 @@ const router = createRouter({
       name: 'dasboard',
       component: dashboardView,
       children:[{path: '/personas',name: 'personas',component: personasView},
-        {
-          path:'/receta',
-          name:'receta',
-          component: recetaMedica
-        }
+        {path:'/receta', name:'receta', component: recetaMedica }
       ]
     },
     
