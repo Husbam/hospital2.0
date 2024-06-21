@@ -6,7 +6,7 @@ from typing import Optional, List
 usuarios = APIRouter()
 usuarios_data = []
 
-class Usuario(BaseModel):
+class model_usuarios(BaseModel):
     id: int
     usuario: str
     password: str
@@ -31,13 +31,13 @@ def getUsuario(usuario_id: int):
 
 # Guardar un nuevo usuario
 @usuarios.post('/usuarios')
-def save_usuario(usuario: Usuario):
+def save_usuario(usuario: model_usuarios):
     usuarios_data.append(usuario.dict())
     return "Usuario guardado correctamente"
 
 # Actualizar datos de un usuario por su ID
 @usuarios.put('/usuarios/{usuario_id}')
-def updateUsuario(usuario_id: int, usuario: Usuario):
+def updateUsuario(usuario_id: int, usuario: model_usuarios):
     for index, user in enumerate(usuarios_data):
         if user['id'] == usuario_id:
             usuarios_data[index] = usuario.dict()
