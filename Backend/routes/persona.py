@@ -1,7 +1,7 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Query
 from pydantic import BaseModel
 from datetime import datetime
-from typing import Optional
+from typing import Optional, List
 
 persona = APIRouter()
 personas=[]
@@ -54,3 +54,28 @@ def deletePersona(persona_id: int):
             del personas[index]
             return "Persona eliminada correctamente"
     raise HTTPException(status_code=404, detail="Persona no encontrada")
+
+# Buscar personas por criterios específicos
+@persona.get('/buscar-personas')
+def buscar_personas(nombre: Optional[str] = None,
+                    primer_apellido: Optional[str] = None,
+                    segundo_apellido: Optional[str] = None,
+                    fecha_nacimiento: Optional[datetime] = None):
+    resultados = personas.copy()  # Copia de la lista original
+
+    if nombre:
+        resultados = [persona for persona in resultados if persona['nombre'] == nombre]
+
+    if primer_apellido:
+        resultados = [persona for persona in resultados if persona['primer_apellido'] == primer_apellido]
+
+    if segundo_apellido:
+        resultados = [persona for persona in resultados if persona.get('segundo_apellido') == segundo_apellido]
+
+    if fecha_nacimiento:
+        resultados = [persona for persona in resultados if persona['fecha_nacimiento'] == fecha_nacimiento]
+
+    if not any([nombre, primer_apellido, segundo_apellido, fecha_nacimiento]):
+        raise HTTPException(status_code=400, detail="Debe proporcionar al menos un criterio de búsqueda")
+
+    return resultados
