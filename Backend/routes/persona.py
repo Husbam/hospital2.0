@@ -55,27 +55,34 @@ def deletePersona(persona_id: int):
             return "Persona eliminada correctamente"
     raise HTTPException(status_code=404, detail="Persona no encontrada")
 
-# Buscar personas por criterios específicos
+# Buscar personas por criterios específicos, incluyendo por ID
 @persona.get('/buscar-personas')
-def buscar_personas(nombre: Optional[str] = None,
+def buscar_personas(id: Optional[int] = None,
+                    nombre: Optional[str] = None,
                     primer_apellido: Optional[str] = None,
                     segundo_apellido: Optional[str] = None,
                     fecha_nacimiento: Optional[datetime] = None):
-    resultados = personas.copy()  # Copia de la lista original
+    if id is not None:
+        resultados = [persona for persona in personas if persona['id'] == id]
+    else:
+        resultados = personas.copy()  # Copia de la lista original
 
-    if nombre:
-        resultados = [persona for persona in resultados if persona['nombre'] == nombre]
+        if nombre:
+            resultados = [persona for persona in resultados if persona['nombre'] == nombre]
 
-    if primer_apellido:
-        resultados = [persona for persona in resultados if persona['primer_apellido'] == primer_apellido]
+        if primer_apellido:
+            resultados = [persona for persona in resultados if persona['primer_apellido'] == primer_apellido]
 
-    if segundo_apellido:
-        resultados = [persona for persona in resultados if persona.get('segundo_apellido') == segundo_apellido]
+        if segundo_apellido:
+            resultados = [persona for persona in resultados if persona.get('segundo_apellido') == segundo_apellido]
 
-    if fecha_nacimiento:
-        resultados = [persona for persona in resultados if persona['fecha_nacimiento'] == fecha_nacimiento]
+        if fecha_nacimiento:
+            resultados = [persona for persona in resultados if persona['fecha_nacimiento'] == fecha_nacimiento]
 
-    if not any([nombre, primer_apellido, segundo_apellido, fecha_nacimiento]):
-        raise HTTPException(status_code=400, detail="Debe proporcionar al menos un criterio de búsqueda")
+        if not any([nombre, primer_apellido, segundo_apellido, fecha_nacimiento]):
+            raise HTTPException(status_code=400, detail="Debe proporcionar al menos un criterio de búsqueda")
+
+    if not resultados:
+        raise HTTPException(status_code=404, detail="No se encontraron personas con los criterios de búsqueda proporcionados")
 
     return resultados
