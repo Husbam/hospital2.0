@@ -15,7 +15,7 @@ def get_db():
     finally:
         db.close()
         
-@user.get("/users/", response_model=List[schemas.users.User], tags=["Usuarios"], dependencies=[Depends(Portador())])
+@user.get("/users/", response_model=List[schemas.users.User], tags=["Usuarios"])
 def read_users(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
     db_users= crud.users.get_users(db=db, skip=skip, limit=limit)
     return db_users
@@ -41,12 +41,13 @@ def update_user(id: int, user: schemas.users.UserUpdate, db: Session = Depends(g
         raise HTTPException(status_code=404, detail="Usuario no existe, no actualizado")
     return db_user
 
-# @user.delete("/user/{id}", response_model=schemas.users.User, tags=["Usuarios"])
-# def delete_user(id: int, db: Session = Depends(get_db)):
-#     db_user = crud.users.delete_user(db=db, id=id)
-#     if db_user is None:
-#         raise HTTPException(status_code=404, detail="Usuario no existe, no se pudo eliminar")
-#     return db_user
+@user.delete("/user/{id}", response_model=schemas.users.User, tags=["Usuarios"])
+def delete_user(id: int, db: Session = Depends(get_db)):
+    db_user = crud.users.delete_user(db=db, id=id)
+    if db_user is None:
+        raise HTTPException(status_code=404, detail="Usuario no existe, no se pudo eliminar")
+    return db_user
+
 
 # @user.post("/login",tags=['autenticacion'])
 # def login(usuario:schemas.users.UserLogin):
