@@ -1,63 +1,60 @@
-from fastapi import APIRouter
-from pydantic import BaseModel
-from datetime import datetime
+from fastapi import APIRouter, HTTPException, Depends, Request
+from fastapi.security import HTTPBearer
+from fastapi.encoders import jsonable_encoder
+from fastapi.responses import JSONResponse
+from sqlalchemy.orm import Session
+from cryptography.fernet import Fernet
+import crud.usersrols, config.db, schemas.usersrols, models.usersrols
+from typing import List
 
-usuario = APIRouter()
-usuarios=[]
+key=Fernet.generate_key()
+f = Fernet(key)
 
-class model_usuarios(BaseModel):
-    id:int
-    usuario:str
-    password:str
-    id_persona: int
-    estatus: bool = False
-    created_at: datetime = datetime.now()
-    
-@usuario.get('/usuarios')
+userrol = APIRouter()
 
-def getUsuarios():
-    return usuarios
+models.usersrols.Base.metadata.create_all(bind=config.db.engine)
 
-@usuario.get('/usuarios/{id_usuario}')
-def get_usuario(id_usuario: int):
-    global usuarios
-    
-    # Buscar la persona por su ID
-    for usuario in usuarios:
-        if usuario.id == id_usuario:
-            return usuario
+def get_db():
+    db = config.db.SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+        
+@userrol.get("/usersrols/", response_model=List[schemas.usersrols.UserRol], tags=["Usuarios Roles"])
+def read_usersrols(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
+    db_usersrols= crud.usersrols.get_usersrols(db=db, skip=skip, limit=limit)
+    return db_usersrols
 
-    return f"No existe algun usuario con ese id: {id_persona} "
+@userrol.post("/userrol/{id_user}/{id_rol}", response_model=schemas.usersrols.UserRol, tags=["Usuarios Roles"])
+def read_rol(id_user: int, id_rol: int, db: Session = Depends(get_db)):
+    db_userrol= crud.usersrols.get_userrol(db=db, id_user=id_user,id_rol=id_rol)
+
+    if db_userrol is None:
+        raise HTTPException(status_code=404, detail="UserRol no existe")
+    return db_userrol
+    order = db.query(Order).filter(Order.order_id == order_id, Order.product_id == product_id).first()
 
 
-@usuario.post('/usuarios')
+@userrol.post("/userrols/", response_model=schemas.usersrols.UserRol, tags=["Usuarios Roles"])
+def create_user(userrol: schemas.usersrols.UserRolCreate, db: Session = Depends(get_db)):
+    db_userrol = crud.usersrols.get_userrol(db=db, id_user=userrol.Usuario_ID, id_rol=userrol.Rol_ID)
+    print (db_userrol)
+    if db_userrol:
+        raise HTTPException(status_code=400, detail="Usuario existente intenta nuevamente")
+    return crud.usersrols.create_userrol(db=db, userrol=userrol)
 
-def save_usuario(datos_usuario:model_usuarios):
-    usuarios.append(datos_usuario)
-    return "Datos guardados correctamente"
+@userrol.put("/userrol/{id_user}/{id_rol}", response_model=schemas.usersrols.UserRol, tags=["Usuarios Roles"])
+def update_user(id_user: int, id_rol: int, userrol: schemas.usersrols.UserRolUpdate, db: Session = Depends(get_db)):
+    db_userrol = crud.usersrols.update_userrol(db=db, id_user=id_user, id_rol=id_rol, userrol=userrol)
+    print (db_userrol.Estatus)
+    if db_userrol is None:
+        raise HTTPException(status_code=404, detail="Usuario no existe, no actualizado")
+    return db_userrol
 
-@usuario.delete('/usuarios/{id_usuario}')
-
-def delete_usuario(id_usuario: int):
-    global usuarios
-    
-    # Buscar la persona por su ID
-    for i, usuario in enumerate(usuarios):
-        if usuario.id == id_usuario:
-            del usuarios[i]
-            return f"Dato con ID {id_usuario} eliminado correctamente."
-    return f"No existe algun usuario con ese id: {id_usuario} "
-
-@usuario.put('/usuarios/{id_usuario}')
-def update_usuario(id_usuario: int, datos_usuario: model_usuarios):
-    global usuarios
-    
-    # Buscar la persona por su ID
-    for usuario in usuarios:
-        if usuario.id == id_usuario:
-            # Actualizar los campos de la persona
-            usuario.usuario = datos_usuario.usuario
-            usuario.password = datos_usuario.password
-
-            return f"Dato con ID {id_usuario} actualizado correctamente."
-    return f"No existe algun usuario con ese id: {id_usuario} "
+@userrol.delete("/userrol/{id_user}/{id_rol}", response_model=schemas.usersrols.UserRol, tags=["Usuarios Roles"])
+def delete_rol(id_user: int, id_rol: int, db: Session = Depends(get_db)):
+    db_userrol = crud.usersrols.delete_userrol(db=db, id_user=id_user, id_rol=id_rol)
+    if db_userrol is None:
+        raise HTTPException(status_code=404, detail="Usuario no existe, no se pudo eliminar")
+    return db_userrol

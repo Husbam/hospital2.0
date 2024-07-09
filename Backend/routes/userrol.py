@@ -1,8 +1,12 @@
 from fastapi import APIRouter, HTTPException, Depends, Request
+from fastapi.security import HTTPBearer
+from fastapi.encoders import jsonable_encoder
+from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 from cryptography.fernet import Fernet
 import crud.usersrols, config.db, schemas.usersrols, models.usersrols
 from typing import List
+
 key=Fernet.generate_key()
 f = Fernet(key)
 
@@ -29,7 +33,7 @@ def read_rol(id_user: int, id_rol: int, db: Session = Depends(get_db)):
     if db_userrol is None:
         raise HTTPException(status_code=404, detail="UserRol no existe")
     return db_userrol
-    #order = db.query(Order).filter(Order.order_id == order_id, Order.product_id == product_id).first()
+    order = db.query(Order).filter(Order.order_id == order_id, Order.product_id == product_id).first()
 
 
 @userrol.post("/userrols/", response_model=schemas.usersrols.UserRol, tags=["Usuarios Roles"])

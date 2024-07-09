@@ -1,7 +1,14 @@
 from fastapi import APIRouter, HTTPException, Depends, Request
+from fastapi.security import HTTPBearer
+from fastapi.encoders import jsonable_encoder
+from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
+from cryptography.fernet import Fernet
 import crud.users, config.db, schemas.users, models.users
 from typing import List
+
+key=Fernet.generate_key()
+f = Fernet(key)
 
 user = APIRouter()
 
@@ -46,3 +53,11 @@ def delete_user(id: int, db: Session = Depends(get_db)):
     if db_user is None:
         raise HTTPException(status_code=404, detail="Usuario no existe, no se pudo eliminar")
     return db_user
+
+@user.post("/login",tags=['autenticacion'])
+def login(usuario:schemas.users.UserLogin):
+    if usuario.usuario == 'rlunas' and usuario.password == '1234':
+        token:str=solicita_token(usuario.dict())
+        return JSONResponse(status_code=200, content=token)
+    else:
+        return JSONResponse(content={'mensaje':'Acceso denegado'},status_code=404)

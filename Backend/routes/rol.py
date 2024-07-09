@@ -1,18 +1,12 @@
 from fastapi import APIRouter, HTTPException, Depends, Request
-<<<<<<< HEAD
 from fastapi.security import HTTPBearer
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
-=======
->>>>>>> ddc1853e4c2e93d1ae48019a4ec36955f014376a
 from sqlalchemy.orm import Session
 from cryptography.fernet import Fernet
 import crud.rols, config.db, schemas.rols, models.rols
 from typing import List
-<<<<<<< HEAD
 
-=======
->>>>>>> ddc1853e4c2e93d1ae48019a4ec36955f014376a
 key=Fernet.generate_key()
 f = Fernet(key)
 

@@ -25,4 +25,3 @@ class Person(PersonBase):
     ID: int
     class Config:
         orm_mode = True
-

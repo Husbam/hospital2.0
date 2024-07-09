@@ -1,71 +1,68 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from datetime import datetime
+from typing import Optional
 
-person = APIRouter()
-persons = []
+persona = APIRouter()
+personas = []
 
-#personsModel
-class model_person(BaseModel):
-    id:str
-    nombre:str
+class model_personas(BaseModel):
+    id: str
+    nombre: str
     primer_apellido: str
-    segundo_apellido: str
-    direccion: str
-    telefono: str
-    correo: str
-    sangre: str
+    segundo_apellido: Optional[str]
+    edad: int
     fecha_nacimiento: datetime
-    created_at:datetime = datetime.now()
-    estatus:bool=False
+    curp: str
+    tipo_sangre: str
+    create_at: datetime = datetime.now()
+    estatus: bool = False
 
-@person.get('/')
-
+@persona.get('/')
 def bienvenida():
-    return "Bienvenido al sistema de apis"
+    return "Bienvenida al sistema"
 
-@person.get('/persons', tags=["Personas"])
-
+@persona.get('/personas')
 def get_personas():
-    return persons
+    return personas
 
-@person.post('/persons', tags=["Personas"] )
+@persona.post('/personas')
+def save_personas(datos_persona: model_personas):
+    personas.append(datos_persona)
+    return "Datos guardado correctamente"
 
-def save_personas(insert_persons:model_person):
-    persons.append(insert_persons)
-    print (insert_persons)
-    return "Datos guardados"
 
-@person.post('/person/{person_id}', tags=["Personas"])
+@persona.get('/personas/{persona_id}')
+def get_persona(persona_id: str):
+    for persona in personas:
+        if persona.id == persona_id:
+            return persona
+    raise HTTPException(status_code=404, detail="Persona no encontrada")
 
-def get_persona(person_id: str):
-    for person in persons:
-        if person.id== person_id:
-            return person
-    return "No existe el registro"
+@persona.put('/personas/{persona_id}')
 
-@person.delete('/person/{person_id}', tags=["Personas"])
+def update_persona(persona_id: str, datos_actualizados: model_personas):
+    for index, persona in enumerate(personas):
+        if persona.id == persona_id:
+            # Actualizamos los campos de la persona con los datos proporcionados
+            personas[index].nombre = datos_actualizados.nombre
+            personas[index].primer_apellido = datos_actualizados.primer_apellido
+            personas[index].segundo_apellido = datos_actualizados.segundo_apellido
+            personas[index].edad = datos_actualizados.edad
+            personas[index].fecha_nacimiento = datos_actualizados.fecha_nacimiento
+            personas[index].curp = datos_actualizados.curp
+            personas[index].tipo_sangre = datos_actualizados.tipo_sangre
+            personas[index].create_at = datos_actualizados.create_at
+            personas[index].estatus = datos_actualizados.estatus
+            return "Datos actualizados correctamente"
+    raise HTTPException(status_code=404, detail="Persona no encontrada")
 
-def delete_persona(person_id: str):
-    for person in persons:
-        if person.id == person_id:
-            persons.remove(person)
-            return "Registro eliminado correctamente"
-    return "Registro no encontrado"
+@persona.delete('/personas/{persona_id}')
+def delete_persona(persona_id: str):
+    for index, persona in enumerate(personas):
+        if persona.id == persona_id:
+            del personas[index]
+            return "Persona eliminada correctamente"
+    raise HTTPException(status_code=404, detail="Persona no encontrada")
 
-@person.put('/person/{person_id}', tags=["Personas"])
 
-def update_persona(person_id: str, updateperson: model_person):
-    for person in persons:
-        if person.id == person_id:
-            person.nombre=updateperson.nombre
-            person.primer_apellido=updateperson.primer_apellido
-            person.segundo_apellido=updateperson.segundo_apellido
-            person.direccion=updateperson.direccion
-            person.telefono=updateperson.telefono
-            person.correo=updateperson.correo
-            person.sangre=updateperson.sangre
-            person.fecha_nacimiento=updateperson.fecha_nacimiento
-            person.estatus=updateperson.estatus
-            return "Registro actualizado correctamente"
-    return "Registro no encontrado"
