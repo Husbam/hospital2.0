@@ -18,7 +18,7 @@ app=FastAPI()
 
 app=FastAPI(
     title="Hospital",
-    description="API para el almacenamiento de informacipn de un hospital"
+    description="API para el almacenamiento de informacion de un hospital"
 )
 app.include_router(user)
 app.include_router(person)
