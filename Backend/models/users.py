@@ -4,6 +4,7 @@ from sqlalchemy.orm import relationship
 from config.db import Base
 from enum import Enum
 
+
 # Definición de los valores del Enum
 class EstatusEnum(str, Enum):
     Activo = 'Activo'
@@ -14,7 +15,7 @@ class EstatusEnum(str, Enum):
 class User(Base):
     __tablename__ = "tbb_usuarios"
     ID = Column(Integer, primary_key=True, index=True)
-    Persona_ID = Column(Integer)#
+    Persona_ID = Column(Integer, ForeignKey("tbb_personas.ID"))#
     Nombre_Usuario = Column(String(60))
     Correo_Electronico = Column(String(100))
     Password = Column(LONGTEXT)
