@@ -33,6 +33,6 @@ class UserUpdate(BaseModel):
     Fecha_Actualizacion: Optional[datetime] = None
 
 class User(UserBase):
-    id: int
+    ID: int
     class Config:
         from_attributes = True
