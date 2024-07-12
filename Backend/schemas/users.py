@@ -1,13 +1,19 @@
-from typing import List, Union
+from typing import List, Union, Literal
 from pydantic import BaseModel
 from datetime import datetime
 
+# Definición de los valores del Enum
+EstatusEnum = Literal['Activo', 'Inactivo', 'Bloqueado', 'Suspendido']
+
 class UserBase(BaseModel):
-    usuario: str
-    password: str
-    created_at: datetime
-    estatus: bool
-    Id_persona: int
+    Persona_ID: int
+    Nombre_Usuario: str
+    Correo_Electronico: str
+    Password: str
+    Numero_Telefonico_Movil: str
+    Estatus: EstatusEnum
+    Fecha_Registro: datetime
+    Fecha_Actualizacion: datetime
 
 class UserCreate(UserBase):
     pass
@@ -16,10 +22,15 @@ class UserUpdate(UserBase):
     pass
 
 class User(UserBase):
-    id: int
-    #owner_id: int clave foranea
+    ID: int
+    #owner_id: int  # Clave Foranea
     class Config:
         orm_mode = True
+
+class UserLogin(BaseModel):
+    usuario: str
+    password: str
+
 
 # class UserLogin(BaseModel):
 #     usuario: str
