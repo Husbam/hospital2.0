@@ -3,7 +3,7 @@ import schemas.users
 from sqlalchemy.orm import Session
 
 def get_user(db: Session, ID: int):
-    return db.query(models.users.User).filter(models.users.User.id == ID).first()
+    return db.query(models.users.User).filter(models.users.User.ID == ID).first()
 
 def get_user_by_usuario(db: Session, usuario: str):
     return db.query(models.users.User).filter(models.users.User.Nombre_Usuario == usuario).first()
@@ -28,7 +28,7 @@ def create_user(db: Session, user: schemas.users.UserCreate):
     return db_user
 
 def update_user(db: Session, ID: int, user: schemas.users.UserUpdate):
-    db_user = db.query(models.users.User).filter(models.users.User.id == ID).first()
+    db_user = db.query(models.users.User).filter(models.users.User.ID == ID).first()
     if db_user:
         for var, value in vars(user).items():
             if value is not None:
@@ -38,7 +38,7 @@ def update_user(db: Session, ID: int, user: schemas.users.UserUpdate):
     return db_user
 
 def delete_user(db: Session, ID: int):
-    db_user = db.query(models.users.User).filter(models.users.User.id == ID).first()
+    db_user = db.query(models.users.User).filter(models.users.User.ID == ID).first()
     if db_user:
         db.delete(db_user)
         db.commit()
