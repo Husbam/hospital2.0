@@ -1,38 +1,32 @@
-from typing import Optional
+from typing import List, Union
 from pydantic import BaseModel
 from datetime import datetime
-from enum import Enum
-
-class EstatusEnum(str, Enum):
-    Activo = 'Activo'
-    Inactivo = 'Inactivo'
-    Bloqueado = 'Bloqueado'
-    Suspendido = 'Suspendido'
 
 class UserBase(BaseModel):
     Persona_ID: int
     Nombre_Usuario: str
     Correo_Electronico: str
-    Password: str
+    Contrasena: str
     Numero_Telefonico_Movil: str
-    Estatus: EstatusEnum
+    Estatus: str
     Fecha_Registro: datetime
     Fecha_Actualizacion: datetime
 
 class UserCreate(UserBase):
     pass
 
-class UserUpdate(BaseModel):
-    Persona_ID: Optional[int] = None
-    Nombre_Usuario: Optional[str] = None
-    Correo_Electronico: Optional[str] = None
-    Password: Optional[str] = None
-    Numero_Telefonico_Movil: Optional[str] = None
-    Estatus: Optional[EstatusEnum] = None
-    Fecha_Registro: Optional[datetime] = None
-    Fecha_Actualizacion: Optional[datetime] = None
+class UserUpdate(UserBase):
+    pass
 
 class User(UserBase):
-    id: int
+    ID: int
+    Persona_ID: int
     class Config:
-        from_attributes = True
+        orm_mode = True
+        
+class UserLogin(BaseModel):
+    Nombre_Usuario: str
+    Correo_electronico: str
+    Contrasena: str
+    Numero_Telefonico_Movil: str
+
