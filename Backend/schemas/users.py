@@ -20,7 +20,10 @@ class UserUpdate(UserBase):
 
 class User(UserBase):
     ID: int
+<<<<<<< HEAD
     Persona_ID: int
+=======
+>>>>>>> ddc1853e4c2e93d1ae48019a4ec36955f014376a
     class Config:
         orm_mode = True
         
