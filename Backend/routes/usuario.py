@@ -1,60 +1,51 @@
-from fastapi import APIRouter, HTTPException, Depends, Request
-from fastapi.security import HTTPBearer
-from fastapi.encoders import jsonable_encoder
-from fastapi.responses import JSONResponse
-from sqlalchemy.orm import Session
-from cryptography.fernet import Fernet
-import crud.usersrols, config.db, schemas.usersrols, models.usersrols
-from typing import List
+# from fastapi import APIRouter
+# from pydantic import BaseModel
+# from datetime import datetime
 
-key=Fernet.generate_key()
-f = Fernet(key)
 
-userrol = APIRouter()
+# usuario = APIRouter()
+# usuarios = []
 
-models.usersrols.Base.metadata.create_all(bind=config.db.engine)
+# class model_usuarios(BaseModel):
+#     id:int
+#     usuario:str
+#     contrasena:str
+#     persona_id:int
+#     created_at:datetime = datetime.now()
+#     estatus:bool = False
 
-def get_db():
-    db = config.db.SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+
+
+# @usuario.get("/usuarios")
+# def get_usuarios():
+#     return usuarios
+
+# @usuario.post("/usuarios")
+# def saveUsuarios(datos_usuario:model_usuarios):
+#     usuarios.append(datos_usuario)
+#     return "Datos guardados correctamente"
+
+
+# @usuario.get("/usuarios/{usuario_id}")
+# def get_usuarios(usuario_id: int):
+#     for usuario in usuarios:
+#         if usuario.id == usuario_id:
+#             return usuario
         
-@userrol.get("/usersrols/", response_model=List[schemas.usersrols.UserRol], tags=["Usuarios Roles"])
-def read_usersrols(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
-    db_usersrols= crud.usersrols.get_usersrols(db=db, skip=skip, limit=limit)
-    return db_usersrols
-
-@userrol.post("/userrol/{id_user}/{id_rol}", response_model=schemas.usersrols.UserRol, tags=["Usuarios Roles"])
-def read_rol(id_user: int, id_rol: int, db: Session = Depends(get_db)):
-    db_userrol= crud.usersrols.get_userrol(db=db, id_user=id_user,id_rol=id_rol)
-
-    if db_userrol is None:
-        raise HTTPException(status_code=404, detail="UserRol no existe")
-    return db_userrol
-    order = db.query(Order).filter(Order.order_id == order_id, Order.product_id == product_id).first()
+# @usuario.put("/usuarios/{usuario_id}")
+# def update_usuarios(usuario_id: int, datos_usuario: model_usuarios):
+#     for index, usuario in enumerate(usuarios):
+#         if usuario.id == usuario_id:
+#             # Evitar actualizar el campo 'id'
+#             datos_usuario.id = usuario.id  # Mantener el mismo id
+#             usuarios[index] = datos_usuario
+#             return "Datos actualizados correctamente"
 
 
-@userrol.post("/userrols/", response_model=schemas.usersrols.UserRol, tags=["Usuarios Roles"])
-def create_user(userrol: schemas.usersrols.UserRolCreate, db: Session = Depends(get_db)):
-    db_userrol = crud.usersrols.get_userrol(db=db, id_user=userrol.Usuario_ID, id_rol=userrol.Rol_ID)
-    print (db_userrol)
-    if db_userrol:
-        raise HTTPException(status_code=400, detail="Usuario existente intenta nuevamente")
-    return crud.usersrols.create_userrol(db=db, userrol=userrol)
 
-@userrol.put("/userrol/{id_user}/{id_rol}", response_model=schemas.usersrols.UserRol, tags=["Usuarios Roles"])
-def update_user(id_user: int, id_rol: int, userrol: schemas.usersrols.UserRolUpdate, db: Session = Depends(get_db)):
-    db_userrol = crud.usersrols.update_userrol(db=db, id_user=id_user, id_rol=id_rol, userrol=userrol)
-    print (db_userrol.Estatus)
-    if db_userrol is None:
-        raise HTTPException(status_code=404, detail="Usuario no existe, no actualizado")
-    return db_userrol
-
-@userrol.delete("/userrol/{id_user}/{id_rol}", response_model=schemas.usersrols.UserRol, tags=["Usuarios Roles"])
-def delete_rol(id_user: int, id_rol: int, db: Session = Depends(get_db)):
-    db_userrol = crud.usersrols.delete_userrol(db=db, id_user=id_user, id_rol=id_rol)
-    if db_userrol is None:
-        raise HTTPException(status_code=404, detail="Usuario no existe, no se pudo eliminar")
-    return db_userrol
+# @usuario.delete("/usuarios/{usuario_id}")
+# def delete_usuarios(usuario_id: int):
+#     for index, usuario in enumerate(usuarios):
+#         if usuario.id == usuario_id:
+#             del usuarios[index]
+#             return "Persona eliminada correctamente"

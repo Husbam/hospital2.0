@@ -24,5 +24,3 @@ class User(Base):
     Estatus = Column(Enum(MyEstatus))
     Fecha_Registro = Column(DateTime)
     Fecha_Actualizacion = Column(DateTime)
-    # Clave foránea para la relación uno a uno con User
-    
